@@ -2,19 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// Large serif statement whose words darken one by one as it scrolls through the viewport.
-// `parts` is an array of { text, italic } runs.
-export default function Statement({ parts }) {
+// Large serif statement on a raised card. Words darken one by one as it scrolls past.
+export default function Statement({ text }) {
   const ref = useRef(null);
   const [progress, setProgress] = useState(0);
-
-  const words = parts.flatMap((p) =>
-    p.text.split(" ").filter(Boolean).map((w) => ({ w, italic: p.italic }))
-  );
+  const words = text.split(" ").filter(Boolean);
 
   useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setProgress(1);
       return;
     }
@@ -25,11 +20,9 @@ export default function Statement({ parts }) {
       if (!el) return;
       const r = el.getBoundingClientRect();
       const vh = window.innerHeight;
-      // 0 when the top reaches 85% of the viewport, 1 when the bottom reaches 55%
       const start = vh * 0.85;
-      const end = vh * 0.55;
-      const p = (start - r.top) / (start - end + r.height);
-      setProgress(Math.min(1, Math.max(0, p)));
+      const end = vh * 0.5;
+      setProgress(Math.min(1, Math.max(0, (start - r.top) / (start - end + r.height))));
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);
@@ -47,25 +40,25 @@ export default function Statement({ parts }) {
   const lit = progress * words.length;
 
   return (
-    <p
-      ref={ref}
-      className="max-w-[16ch] font-serif text-[clamp(2.75rem,7vw,6.5rem)] font-light leading-[1.02] tracking-tight"
-    >
-      {words.map(({ w, italic }, i) => {
-        const on = Math.min(1, Math.max(0, lit - i));
-        return (
-          <span
-            key={i}
-            className={italic ? "italic" : undefined}
-            style={{
-              color: `color-mix(in srgb, var(--color-ink) ${Math.round(on * 100)}%, var(--color-faint))`,
-              transition: "color 0.25s linear",
-            }}
-          >
-            {w}{" "}
-          </span>
-        );
-      })}
-    </p>
+    <section className="px-0 py-10 md:py-14">
+      <div className="rounded-t-[28px] bg-sand-2/60 px-5 pb-28 pt-20 shadow-[0_-18px_40px_-28px_rgb(42_26_20/0.45),inset_0_1px_0_rgb(255_255_255/0.5)] md:px-6 md:pb-40 md:pt-28">
+        <p ref={ref} className="max-w-[19ch] font-serif text-[clamp(2.5rem,5.6vw,5.4rem)] leading-[1.06] tracking-[-0.015em]">
+          {words.map((w, i) => {
+            const on = Math.min(1, Math.max(0, lit - i));
+            return (
+              <span
+                key={i}
+                style={{
+                  color: `color-mix(in srgb, var(--color-ink) ${Math.round(on * 100)}%, var(--color-faint))`,
+                  transition: "color 0.25s linear",
+                }}
+              >
+                {w}{" "}
+              </span>
+            );
+          })}
+        </p>
+      </div>
+    </section>
   );
 }

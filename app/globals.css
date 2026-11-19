@@ -1,15 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #f2efe9;
-  --color-ink: #0f0e0c;
-  --color-mute: #6f6a62;
-  --color-faint: #cbc6bd;
-  --color-line: #d9d4cb;
-  --color-night: #0e0d0b;
-  --color-gold: #b88a3b;
-  --font-serif: var(--font-cormorant), "Cormorant Garamond", Garamond, "Times New Roman", serif;
-  --font-sans: var(--font-inter-tight), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --color-sand: #e9d8bf;
+  --color-sand-2: #efe2cd;
+  --color-ink: #2a1a14;
+  --color-mute: #8b7062;
+  --color-faint: #d2bc9c;
+  --color-line: rgb(42 26 20 / 0.14);
+  --color-night: #33231b;
+  --color-tan: #c9a47e;
+  --color-cream: #f1e4cf;
+  --font-serif: var(--font-hedvig-serif), "Hedvig Letters Serif", Georgia, serif;
+  --font-sans: var(--font-hedvig-sans), -apple-system, system-ui, sans-serif;
+}
+
+/* Paper grain: fine noise over faint horizontal fibres, like linen board */
+.grain {
+  background-color: var(--color-sand);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(0deg, rgb(42 26 20 / 0.025) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, #ecdcc4, #e6d3b7);
+}
+.grain-dark {
+  background-color: var(--color-night);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 html {
@@ -17,7 +33,6 @@ html {
 }
 
 body {
-  background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: 15px;
@@ -26,18 +41,30 @@ body {
 
 ::selection {
   background: var(--color-ink);
-  color: var(--color-paper);
+  color: var(--color-sand);
 }
 
-/* Small caps label used across sections */
 .label {
   font-family: var(--font-sans);
-  font-size: 11px;
+  font-size: 10.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-/* Fade-and-rise on scroll (see components/Reveal.js) */
+/* Photos sit in black and white and come back to colour on hover or focus */
+.mono {
+  filter: grayscale(1) contrast(1.04) brightness(0.98);
+  transition:
+    filter 0.8s ease,
+    transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .mono,
+.group:focus-visible .mono,
+.mono.is-colour {
+  filter: none;
+}
+
+/* Fade-and-rise on scroll (components/Reveal.js) */
 .reveal {
   opacity: 0;
   transform: translateY(28px);
@@ -51,11 +78,10 @@ body {
   transform: none;
 }
 
-/* Hero wordmark letters settle into place on load */
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(40%);
+    transform: translateY(45%);
   }
   to {
     opacity: 1;
@@ -67,11 +93,10 @@ body {
   animation: rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Collage tiles fade up one after another on load */
 @keyframes tile {
   from {
     opacity: 0;
-    transform: translateY(60px) scale(0.98);
+    transform: translateY(60px);
   }
   to {
     opacity: 1;
@@ -82,14 +107,29 @@ body {
   animation: tile 1.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.link-arrow {
+/* Text that rolls up to a copy of itself on hover (menu button, pills) */
+.roll {
+  display: inline-flex;
+  flex-direction: column;
+  height: 1.2em;
+  line-height: 1.2em;
+  overflow: hidden;
+}
+.roll > span {
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.group:hover .roll > span {
+  transform: translateY(-100%);
+}
+
+.link-line {
   background-image: linear-gradient(currentColor, currentColor);
   background-size: 0% 1px;
   background-position: 0 100%;
   background-repeat: no-repeat;
   transition: background-size 0.4s ease;
 }
-.link-arrow:hover {
+.link-line:hover {
   background-size: 100% 1px;
 }
 
@@ -104,5 +144,8 @@ body {
     transition: none;
     opacity: 1;
     transform: none;
+  }
+  .roll > span {
+    transition: none;
   }
 }

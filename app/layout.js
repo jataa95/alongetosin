@@ -1,19 +1,18 @@
-import { Cormorant_Garamond, Inter_Tight } from "next/font/google";
+import { Hedvig_Letters_Sans, Hedvig_Letters_Serif } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { artist } from "@/data/site";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
+const serif = Hedvig_Letters_Serif({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  style: ["normal", "italic"],
-  variable: "--font-cormorant",
+  variable: "--font-hedvig-serif",
 });
 
-const interTight = Inter_Tight({
+const sans = Hedvig_Letters_Sans({
   subsets: ["latin"],
-  variable: "--font-inter-tight",
+  weight: "400",
+  variable: "--font-hedvig-sans",
 });
 
 export const metadata = {
@@ -37,11 +36,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${interTight.variable}`}>
-      <body>
+    <html lang="en" className={`${serif.variable} ${sans.variable}`}>
+      <body className="grain">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-ink focus:px-3 focus:py-2 focus:text-paper"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-ink focus:px-3 focus:py-2 focus:text-sand"
         >
           Skip to content
         </a>

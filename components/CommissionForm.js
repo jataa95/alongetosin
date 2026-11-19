@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { artist } from "@/data/site";
+import Pill from "./Pill";
 
 // No backend: the form composes a message and opens WhatsApp or email with it filled in.
 export default function CommissionForm() {
@@ -29,7 +30,7 @@ export default function CommissionForm() {
     window.open(url, via === "whatsapp" ? "_blank" : "_self");
   };
 
-  const field = "w-full border-b border-ink/30 bg-transparent py-2 text-[15px] outline-none transition-colors focus:border-ink";
+  const field = "w-full border-b border-ink/25 bg-transparent py-2 text-[15px] outline-none transition-colors focus:border-ink";
 
   return (
     <form onSubmit={send("whatsapp")} className="space-y-6">
@@ -66,12 +67,10 @@ export default function CommissionForm() {
 
       <p className="text-[12px] text-mute">Reference photos can be attached once the chat or email opens.</p>
 
-      <div className="flex flex-wrap gap-3 text-[12px]">
-        <button type="submit" className="border border-ink bg-ink px-5 py-2.5 text-paper transition-opacity hover:opacity-80">
-          Send on WhatsApp →
-        </button>
-        <button type="button" onClick={send("email")} className="border border-ink px-5 py-2.5 transition-colors hover:bg-ink hover:text-paper">
-          Send by email
+      <div className="flex flex-wrap items-center gap-5">
+        <Pill as="button" type="submit">Send on WhatsApp</Pill>
+        <button type="button" onClick={send("email")} className="label link-line">
+          Or send by email
         </button>
       </div>
     </form>

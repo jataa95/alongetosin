@@ -4,6 +4,7 @@
 
 export const artist = {
   name: "Alonge Tosin",
+  wordmark: "alongetosin",
   short: "Tosin",
   handle: "tosin_xp",
   discipline: "Visual artist — graphite, charcoal & paint",
@@ -13,7 +14,7 @@ export const artist = {
   whatsappLink: "https://wa.me/2347034352210",
   instagram: "https://www.instagram.com/tosin_xp/",
   facebook: "https://www.facebook.com/search/top?q=Tosin%20xp",
-  tagline: ["Alonge Tosin.", "Hyperrealist drawing & painting."],
+  tagline: "Alonge Tosin. Hyperrealist drawing & painting from Nigeria.",
 };
 
 // width/height are the real pixel sizes of the files in /public.
@@ -25,6 +26,7 @@ export const works = [
   {
     slug: "my-serenity",
     title: "My Serenity",
+    subtitle: "(Graphite)",
     medium: "Graphite & charcoal pencil on paper",
     kind: "Drawing",
     year: null,
@@ -45,7 +47,8 @@ export const works = [
   },
   {
     slug: "golden-hour",
-    title: "Untitled (Black Wings, Gold Sun)",
+    title: "Untitled",
+    subtitle: "(Black Wings, Gold Sun)",
     medium: "Paint on canvas",
     kind: "Painting",
     year: null,
@@ -66,7 +69,8 @@ export const works = [
   },
   {
     slug: "the-warmth-that-outlived-the-dark",
-    title: "The Warmth That Outlived the Dark",
+    title: "The Warmth",
+    subtitle: "(That Outlived the Dark)",
     medium: "Charcoal & graphite on paper",
     kind: "Drawing",
     year: null,
@@ -87,6 +91,7 @@ export const works = [
   {
     slug: "muhammad-ali",
     title: "Muhammad Ali",
+    subtitle: "(On Canvas)",
     medium: "Paint on canvas",
     kind: "Painting",
     year: null,
@@ -105,7 +110,8 @@ export const works = [
   },
   {
     slug: "adigun-ati-akanni",
-    title: "Adigun ati Akanni pe Odun Kan",
+    title: "Adigun ati Akanni",
+    subtitle: "(Pe Odun Kan)",
     medium: "Charcoal & graphite on paper, framed",
     kind: "Commissioned portrait",
     year: null,
@@ -129,4 +135,7 @@ export const getWork = (slug) => works.find((w) => w.slug === slug);
 // Studio reels shown in the dark "From the studio" section.
 export const reels = works
   .filter((w) => w.video)
-  .map((w) => ({ slug: w.slug, title: w.title, ...w.video }));
+  .map((w) => ({ slug: w.slug, title: w.title, subtitle: w.subtitle, ...w.video }));
+
+// Full title for alt text, metadata and links, e.g. "My Serenity (Graphite)".
+export const fullTitle = (w) => (w.subtitle ? `${w.title} ${w.subtitle}` : w.title);
