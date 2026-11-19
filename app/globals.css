@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f2efe9;
+  --color-ink: #0f0e0c;
+  --color-mute: #6f6a62;
+  --color-faint: #cbc6bd;
+  --color-line: #d9d4cb;
+  --color-night: #0e0d0b;
+  --color-gold: #b88a3b;
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Garamond, "Times New Roman", serif;
+  --font-sans: var(--font-inter-tight), "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+/* Small caps label used across sections */
+.label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Fade-and-rise on scroll (see components/Reveal.js) */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--delay, 0ms);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero wordmark letters settle into place on load */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(40%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  display: inline-block;
+  animation: rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Collage tiles fade up one after another on load */
+@keyframes tile {
+  from {
+    opacity: 0;
+    transform: translateY(60px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.tile {
+  animation: tile 1.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.link-arrow {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.4s ease;
+}
+.link-arrow:hover {
+  background-size: 100% 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal,
+  .rise,
+  .tile {
+    animation: none;
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
