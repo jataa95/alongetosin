@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { artist } from "@/data/site";
 import "./globals.css";
+import OjdznCredit from "../components/OjdznCredit";
 
 const serif = Hedvig_Letters_Serif({
   subsets: ["latin"],
@@ -47,6 +48,7 @@ export default function RootLayout({ children }) {
         <Header />
         <main id="main">{children}</main>
         <Footer />
+        <OjdznCredit from="alongetosin" />
       </body>
     </html>
   );
